@@ -7,6 +7,7 @@ const PrivatePage = ({ history }) => {
   const [userData, setUserData] = useState("");
 
   useEffect(() => {
+    console.log(document.cookies)
     const fetchPrivateDate = async () => {
       const config = {
         headers: {
@@ -17,7 +18,6 @@ const PrivatePage = ({ history }) => {
 
       try {
         const { data } = await axios.get("/api/home", config);
-        console.log(data);
         setUserData({ ...data.data });
       } catch (error) {
         localStorage.removeItem("authToken");
@@ -32,7 +32,6 @@ const PrivatePage = ({ history }) => {
     localStorage.removeItem("authToken");
     history.push("/login");
   };
-  console.log("private token", localStorage.getItem("authToken"));
 
   return error ? (
     <span className="error-message">{error}</span>
