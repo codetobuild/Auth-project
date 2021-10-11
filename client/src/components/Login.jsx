@@ -21,6 +21,7 @@ const Register = (props) => {
     e.preventDefault();
     const config = {
       header: { "content-Type": "application/json" },
+      withCredentials: true,
     };
 
     try {

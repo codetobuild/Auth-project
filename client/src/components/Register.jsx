@@ -7,9 +7,12 @@ const Register = (props) => {
   const { history } = props;
   // states
   const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
+  const [address, setAddress] = useState("");
+  const [mobile, setMobileNumber] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -22,6 +25,7 @@ const Register = (props) => {
     e.preventDefault();
     const config = {
       header: { "content-Type": "application/json" },
+      withCredentials: true,
     };
 
     if (password !== confirmpassword) {
@@ -39,8 +43,11 @@ const Register = (props) => {
         "/api/auth/register",
         {
           username,
+          name,
           email,
           password,
+          address,
+          mobile,
         },
         config
       );
@@ -61,14 +68,25 @@ const Register = (props) => {
         <h3 className="register-screen__title">Register</h3>
         {error && <span className="error-message">{error}</span>}
         <div className="form-group">
-          <label htmlFor="name">Username:</label>
+          <label htmlFor="username">Username:</label>
+          <input
+            type="text"
+            required
+            id="username"
+            placeholder="Enter username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="name">Full Name</label>
           <input
             type="text"
             required
             id="name"
-            placeholder="Enter username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Enter fullname"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
         </div>
         <div className="form-group">
@@ -104,6 +122,28 @@ const Register = (props) => {
             placeholder="Confirm password"
             value={confirmpassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="address">Address</label>
+          <input
+            type="text"
+            required
+            id="address"
+            placeholder="Enter address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="mobilenumber">Mobile Number</label>
+          <input
+            type="mobilenumber"
+            required
+            id="address"
+            placeholder="Enter address"
+            value={mobile}
+            onChange={(e) => setMobileNumber(e.target.value)}
           />
         </div>
         <button type="submit" className="btn btn-primary">

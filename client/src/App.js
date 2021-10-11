@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import PrivateRoute from "./components/Routing/PrivateRoute";
 
 // component pages
@@ -23,6 +23,7 @@ function App() {
             path="/resetpassword/:resetToken"
             component={ResetPassword}
           />
+          <Redirect to="/" />
         </Switch>
       </div>
     </BrowserRouter>

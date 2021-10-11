@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./styles/privatePage.css";
+
 const PrivatePage = ({ history }) => {
   const [error, setError] = useState("");
-  const [privateData, setPrivateData] = useState("");
+  const [userData, setUserData] = useState("");
 
   useEffect(() => {
     const fetchPrivateDate = async () => {
@@ -15,8 +16,9 @@ const PrivatePage = ({ history }) => {
       };
 
       try {
-        const { data } = await axios.get("/api/private", config);
-        setPrivateData(data.data);
+        const { data } = await axios.get("/api/home", config);
+        console.log(data);
+        setUserData({ ...data.data });
       } catch (error) {
         localStorage.removeItem("authToken");
         setError("You are not authorized please login");
@@ -37,8 +39,14 @@ const PrivatePage = ({ history }) => {
   ) : (
     <>
       <div className="card">
-        <h2 className="card_item">Yayyy!🎉</h2>
-        <h2>{privateData}😎 </h2>
+        <h2 className="card_item">👋Hello {userData.username}</h2>
+        <main className="main_content">
+          <p>Name: {userData.name}</p>
+          <p>Username: {userData.username}</p>
+          <p>Email: {userData.email}</p>
+          <p>Address: {userData.address}</p>
+          <p>Mobile: {userData.mobile}</p>
+        </main>
         <button
           onClick={handleLogout}
           style={{ backgroundColor: "blue", color: "white", padding: "5px" }}>
