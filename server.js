@@ -3,6 +3,7 @@ require("dotenv").config({ path: ".env" });
 const express = require("express");
 const app = express();
 const path = require("path");
+const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
 const startupApplication = require("./startup/index");
@@ -11,11 +12,14 @@ const customErrorHandler = require("./middlewares/customErrorHandler");
 // connect db
 connectDB();
 
+app.use(cookieParser());
+app.use(cors());
 app.use(express.json());
 
 // routes
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/private", require("./routes/private"));
+app.use("/api/home", require("./routes/home"));
 
 // capture and handle error
 app.use(customErrorHandler);

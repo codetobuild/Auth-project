@@ -26,7 +26,7 @@ exports.login = async (req, res, next) => {
     if (!user) {
       return next(new errorResponse("Invalid credentials", 401));
     }
-    // compare the password
+    // compare password
     const isPasswordMatch = await user.matchPassword(password);
     if (!isPasswordMatch) {
       return next(new errorResponse("Invalid credentials", 401));
@@ -78,10 +78,6 @@ exports.resetPassword = async (req, res, next) => {
     .update(req.params.resetToken)
     .digest("hex");
 
-  console.log(resetPasswordToken);
-  console.log(" ");
-  console.log(req.params.resetToken);
-
   try {
     const user = await User.findOne({
       resetPasswordToken: resetPasswordToken,
@@ -106,6 +102,10 @@ exports.resetPassword = async (req, res, next) => {
 
 function sendToken(user, statusCode, res) {
   const token = user.getSignedToken();
+  res.cookie("token", token, {
+    httpOnly: true,
+  });
   console.log(token);
+
   return res.status(statusCode).json({ success: true, token: token });
 }

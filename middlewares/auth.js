@@ -4,13 +4,8 @@ const User = require("../models/User");
 
 exports.protect = async (req, res, next) => {
   let token;
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
-  ) {
-    // Bearer rdru94jr09f9asdflk
-    // extract second part
-    token = req.headers.authorization.split(" ")[1];
+  if (req.cookies.token) {
+    token = req.cookies.token;
   }
   if (!token) {
     return next(new errorResponse("Unauthorized to access this route", 401));
@@ -27,5 +22,3 @@ exports.protect = async (req, res, next) => {
     return next(new errorResponse("Unauthorized to access this route", 401));
   }
 };
-
-
