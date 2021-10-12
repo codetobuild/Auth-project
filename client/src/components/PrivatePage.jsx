@@ -3,14 +3,13 @@ import axios from "axios";
 import "./styles/privatePage.css";
 
 const PrivatePage = ({ history }) => {
-  console.log("priavate route", history);
   const [error, setError] = useState("");
   const [userData, setUserData] = useState("");
 
   useEffect(() => {
     if (localStorage.getItem("loggedIn") !== "true") {
       history.push("/login");
-    }
+    } 
 
     const fetchPrivateData = async () => {
       const config = {
@@ -38,11 +37,9 @@ const PrivatePage = ({ history }) => {
     };
     try {
       const { data } = await axios.post("/api/auth/logout", config);
-      console.log(data);
       localStorage.removeItem("loggedIn");
       history.push("/login");
     } catch (err) {
-      console.log(err.message);
       setError("Error while logging out");
     }
   };

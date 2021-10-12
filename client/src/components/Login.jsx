@@ -2,25 +2,28 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "./styles/Login.css";
+import useLogin from "../hooks/useLogin";
+import useError from "../hooks/useError";
 
 const Register = ({ history }) => {
   // states
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const { email, setEmail, password, setPassword } = useLogin();
+  const { error, setError } = useError();
 
   useEffect(() => {
     if (localStorage.getItem("loggedIn") === "true") {
-      history.replace("/");
+      history.push("/");
     }
   });
 
-  const loginHandler = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     const config = {
       header: { "content-Type": "application/json" },
       withCredentials: true,
     };
+    console.log(email);
+    console.log(password);
 
     try {
       const { data } = await axios.post(
@@ -31,9 +34,11 @@ const Register = ({ history }) => {
         },
         config
       );
+
       localStorage.setItem("loggedIn", true);
       history.replace("/");
     } catch (err) {
+      console.log(err.message);
       setError(err.response.data.error);
       setTimeout(() => {
         setError("");
@@ -44,7 +49,7 @@ const Register = ({ history }) => {
   // return jsx
   return (
     <div className="login-screen">
-      <form onSubmit={loginHandler} className="login-screen__form">
+      <form onSubmit={handleLogin} className="login-screen__form">
         <h3 className="login-screen__title">Login</h3>
         {error && <span className="error-message">{error}</span>}
 

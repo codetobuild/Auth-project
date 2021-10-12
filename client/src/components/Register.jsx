@@ -2,18 +2,30 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "./styles/Register.css";
+import useRegister from "../hooks/useRegister";
+import useError from "../hooks/useError";
 
 const Register = (props) => {
   const { history } = props;
   // states
-  const [username, setUsername] = useState("");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmpassword, setConfirmPassword] = useState("");
-  const [address, setAddress] = useState("");
-  const [mobile, setMobileNumber] = useState("");
-  const [error, setError] = useState("");
+  const { error, setError } = useError();
+
+  const {
+    username,
+    setUsername,
+    name,
+    setName,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    confirmpassword,
+    setConfirmPassword,
+    address,
+    setAddress,
+    mobile,
+    setMobileNumber,
+  } = useRegister();
 
   useEffect(() => {
     if (localStorage.getItem("loggedIn") === "true") {
@@ -21,6 +33,7 @@ const Register = (props) => {
     }
   }, []);
 
+  // handle form submit for register
   const handleRegister = async (e) => {
     e.preventDefault();
     const config = {
@@ -60,7 +73,7 @@ const Register = (props) => {
       }, 5000);
     }
   };
-  // return jsx
+
   return (
     <div className="register-screen">
       <form onSubmit={handleRegister} className="register-screen__form">
