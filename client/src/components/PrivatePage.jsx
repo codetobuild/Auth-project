@@ -3,16 +3,17 @@ import axios from "axios";
 import "./styles/privatePage.css";
 
 const PrivatePage = ({ history }) => {
+  console.log("priavate route", history);
   const [error, setError] = useState("");
   const [userData, setUserData] = useState("");
 
   useEffect(() => {
-    console.log(document.cookies)
+    console.log(document.cookies);
     const fetchPrivateDate = async () => {
       const config = {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          // Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
       };
 
@@ -20,7 +21,7 @@ const PrivatePage = ({ history }) => {
         const { data } = await axios.get("/api/home", config);
         setUserData({ ...data.data });
       } catch (error) {
-        localStorage.removeItem("authToken");
+        // localStorage.removeItem("authToken");
         setError("You are not authorized please login");
       }
     };

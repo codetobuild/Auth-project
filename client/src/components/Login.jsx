@@ -11,11 +11,11 @@ const Register = (props) => {
 
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    if (localStorage.getItem("authToken")) {
-      history.push("/");
-    }
-  }, [history]);
+  // useEffect(() => {
+  //   if (localStorage.getItem("authToken")) {
+  //   history.push("/");
+  //   }
+  // }, [history]);
 
   const loginHandler = async (e) => {
     e.preventDefault();
@@ -35,8 +35,8 @@ const Register = (props) => {
       );
       console.log(data);
 
-      localStorage.setItem("authToken", data.token);
-      
+      console.log(history);
+      // localStorage.setItem("authToken", data.token);
       history.push("/");
     } catch (err) {
       setError(err.response.data.error);

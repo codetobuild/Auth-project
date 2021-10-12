@@ -15,11 +15,11 @@ const Register = (props) => {
   const [mobile, setMobileNumber] = useState("");
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    if (localStorage.getItem("authToken")) {
-      history.push("/login");
-    }
-  }, [history]);
+  // useEffect(() => {
+  //   if (localStorage.getItem("authToken")) {
+  //     history.push("/login");
+  //   }
+  // }, [history]);
 
   const registerHandler = async (e) => {
     e.preventDefault();
@@ -52,7 +52,7 @@ const Register = (props) => {
         config
       );
 
-      localStorage.setItem("authToken", data.token);
+      // localStorage.setItem("authToken", data.token);
       history.push("/login");
     } catch (err) {
       setError(err.response.data.error);
