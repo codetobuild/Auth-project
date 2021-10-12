@@ -3,19 +3,17 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import "./styles/Login.css";
 
-const Register = (props) => {
-  const { history } = props;
+const Register = ({ history }) => {
   // states
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [error, setError] = useState("");
 
-  // useEffect(() => {
-  //   if (localStorage.getItem("authToken")) {
-  //   history.push("/");
-  //   }
-  // }, [history]);
+  useEffect(() => {
+    if (localStorage.getItem("loggedIn") === "true") {
+      history.replace("/");
+    }
+  });
 
   const loginHandler = async (e) => {
     e.preventDefault();
@@ -33,11 +31,8 @@ const Register = (props) => {
         },
         config
       );
-      console.log(data);
-
-      console.log(history);
-      // localStorage.setItem("authToken", data.token);
-      history.push("/");
+      localStorage.setItem("loggedIn", true);
+      history.replace("/");
     } catch (err) {
       setError(err.response.data.error);
       setTimeout(() => {
@@ -45,6 +40,7 @@ const Register = (props) => {
       }, 5000);
     }
   };
+
   // return jsx
   return (
     <div className="login-screen">

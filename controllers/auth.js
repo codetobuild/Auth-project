@@ -38,6 +38,14 @@ exports.login = async (req, res, next) => {
   }
 };
 
+exports.logout = (req, res) => {
+  res.cookie("token", null, {
+    httpOnly: true,
+    secure: true,
+  });
+  res.status(200).json({ success: true, message: "user logged out" });
+};
+
 // forgot password
 exports.forgotPassword = async (req, res, next) => {
   const { email } = req.body;
@@ -104,6 +112,7 @@ function sendToken(user, statusCode, res) {
   const token = user.getSignedToken();
   res.cookie("token", token, {
     httpOnly: true,
+    secure: true,
   });
   console.log(token);
 

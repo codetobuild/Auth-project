@@ -15,13 +15,13 @@ const Register = (props) => {
   const [mobile, setMobileNumber] = useState("");
   const [error, setError] = useState("");
 
-  // useEffect(() => {
-  //   if (localStorage.getItem("authToken")) {
-  //     history.push("/login");
-  //   }
-  // }, [history]);
+  useEffect(() => {
+    if (localStorage.getItem("loggedIn") === "true") {
+      history.replace("/");
+    }
+  }, []);
 
-  const registerHandler = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     const config = {
       header: { "content-Type": "application/json" },
@@ -51,9 +51,8 @@ const Register = (props) => {
         },
         config
       );
-
-      // localStorage.setItem("authToken", data.token);
-      history.push("/login");
+      localStorage.setItem("loggedIn", true);
+      history.replace("/login");
     } catch (err) {
       setError(err.response.data.error);
       setTimeout(() => {
@@ -64,7 +63,7 @@ const Register = (props) => {
   // return jsx
   return (
     <div className="register-screen">
-      <form onSubmit={registerHandler} className="register-screen__form">
+      <form onSubmit={handleRegister} className="register-screen__form">
         <h3 className="register-screen__title">Register</h3>
         {error && <span className="error-message">{error}</span>}
         <div className="form-group">

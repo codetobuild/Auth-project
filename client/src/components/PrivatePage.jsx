@@ -8,12 +8,14 @@ const PrivatePage = ({ history }) => {
   const [userData, setUserData] = useState("");
 
   useEffect(() => {
-    console.log(document.cookies);
-    const fetchPrivateDate = async () => {
+    if (localStorage.getItem("loggedIn") !== "true") {
+      history.push("/login");
+    }
+
+    const fetchPrivateData = async () => {
       const config = {
         headers: {
           "Content-Type": "application/json",
-          // Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
       };
 
@@ -21,17 +23,28 @@ const PrivatePage = ({ history }) => {
         const { data } = await axios.get("/api/home", config);
         setUserData({ ...data.data });
       } catch (error) {
-        // localStorage.removeItem("authToken");
         setError("You are not authorized please login");
+        history.push("/login");
       }
     };
 
-    fetchPrivateDate();
+    fetchPrivateData();
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    history.push("/login");
+  const handleLogout = async () => {
+    const config = {
+      header: { "content-Type": "application/json" },
+      withCredentials: true,
+    };
+    try {
+      const { data } = await axios.post("/api/auth/logout", config);
+      console.log(data);
+      localStorage.removeItem("loggedIn");
+      history.push("/login");
+    } catch (err) {
+      console.log(err.message);
+      setError("Error while logging out");
+    }
   };
 
   return error ? (
