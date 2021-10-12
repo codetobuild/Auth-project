@@ -5,9 +5,10 @@ const app = express();
 const path = require("path");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const helmet = require("helmet");
 
-const startupApplication = require("./startup/index");
-const connectDB = require("./startup/db");
+const startupApplication = require("./loaders/index");
+const connectDB = require("./loaders/db");
 const customErrorHandler = require("./middlewares/customErrorHandler");
 // connect db
 connectDB();
@@ -15,6 +16,7 @@ connectDB();
 app.use(cookieParser());
 app.use(cors());
 app.use(express.json());
+app.use(helmet());
 
 // routes
 app.use("/api/auth", require("./routes/auth"));
